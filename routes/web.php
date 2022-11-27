@@ -21,8 +21,7 @@ use App\Http\Controllers\topic\CreateController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/index', [IndexController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'get'])->name('home');
 Route::get('/archive', [ArchiveController::class, 'get'])->name('archive');
 Route::get('/detail', [DetailController::class, 'get'])->name('detail');
 Route::get('/edit', [EditController::class, 'get'])->name('edit');

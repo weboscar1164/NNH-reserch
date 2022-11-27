@@ -23,12 +23,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function get()
     {
 
         $topic_detail = DB::table('topics')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->wherePublished(1)
+            ->where('deleted_at', '=', null)
+            ->orderby('topics.id', 'desc')
             ->first();
 
         $topic_choices = DB::table('topics')
@@ -40,6 +42,8 @@ class HomeController extends Controller
                 'choice5',
             )
             ->wherePublished(1)
+            ->where('deleted_at', '=', null)
+            ->orderby('id', 'desc')
             ->first();
 
         $topic_answers = DB::table('topics')
@@ -51,6 +55,8 @@ class HomeController extends Controller
                 'answer5',
             )
             ->wherePublished(1)
+            ->where('deleted_at', '=', null)
+            ->orderby('id', 'desc')
             ->first();
 
         foreach ($topic_choices as $choice) {
@@ -66,6 +72,8 @@ class HomeController extends Controller
         $topics = DB::table('topics')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->wherePublished(1)
+            ->where('deleted_at', '=', null)
+            ->orderby('topics.id', 'desc')
             ->get();
 
         return view(
