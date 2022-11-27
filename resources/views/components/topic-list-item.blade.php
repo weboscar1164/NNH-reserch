@@ -6,7 +6,9 @@ $published_cls = $topic->published ? 'bg-primary' : 'bg-danger';
 <li class="topic row bg-white shadow-sm mb-3 rounded p-3">
     <div class="col-md d-flex align-items-center">
         <h2 class="mb-2 mb-md-0">
+            @if(!$is_home)
             <span class="badge mr-1 align-bottom {{ $published_cls }}">{{ $published_label }}</span>
+            @endif
             <a class="text-body" href="">{{ $topic->title }}</a>
         </h2>
     </div>

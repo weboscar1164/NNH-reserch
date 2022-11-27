@@ -8,7 +8,7 @@
     <x-topic-header-item :topic-detail="$topic_detail" :topic-results="$topic_results" />
     <ul class="list-unstyled">
         @foreach($topics as $topic)
-        <x-topic-list-item :topic="$topic" />
+        <x-topic-list-item :topic="$topic" :is-home="true" />
         @endforeach
     </ul>
 </div>

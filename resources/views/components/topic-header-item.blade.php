@@ -12,9 +12,9 @@
         <!-- 右側 -->
         <div>
             <h1>{{ $topic_detail->title}}</h1>
-            <span class="mr-1 h5">Posted by テストユーザー</span>
+            <span class="mr-1 h5">Posted by {{ $topic_detail->name}}</span>
             <span class="mr-1 h5">&bull;</span>
-            <span class="h5">36 views</span>
+            <span class="h5">{{ $topic_detail->views}} views</span>
         </div>
         <ul class="list-unstyled container h4">
             @foreach($topic_results as $topic_result)
