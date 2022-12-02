@@ -23,6 +23,6 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'get'])->name('home');
 Route::get('/archive', [ArchiveController::class, 'get'])->name('archive');
-Route::get('/detail', [DetailController::class, 'get'])->name('detail');
+Route::get('/detail/{id}', [DetailController::class, 'get'])->name('detail');
 Route::get('/edit', [EditController::class, 'get'])->name('edit');
 Route::get('/create', [CreateController::class, 'get'])->name('create');

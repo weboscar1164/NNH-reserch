@@ -43,7 +43,7 @@ class HomeController extends Controller
             )
             ->wherePublished(1)
             ->where('deleted_at', '=', null)
-            ->orderby('id', 'desc')
+            ->orderby('topics.id', 'desc')
             ->first();
 
         $topic_answers = DB::table('topics')
@@ -56,20 +56,13 @@ class HomeController extends Controller
             )
             ->wherePublished(1)
             ->where('deleted_at', '=', null)
-            ->orderby('id', 'desc')
+            ->orderby('topics.id', 'desc')
             ->first();
 
-        foreach ($topic_choices as $choice) {
-            $topic_results[]['choice'] = $choice;
-        }
-
-        $i = 0;
-        foreach ($topic_answers as $answer) {
-            $topic_results[$i]['answer'] = $answer;
-            $i++;
-        }
+        $topic_results = Controller::fetchResults($topic_choices, $topic_answers);
 
         $topics = DB::table('topics')
+            ->select('topics.id', 'topics.title', 'topics.published', 'topics.views', 'users.name',)
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->wherePublished(1)
             ->where('deleted_at', '=', null)
