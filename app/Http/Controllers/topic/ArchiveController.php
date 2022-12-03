@@ -12,6 +12,7 @@ class ArchiveController extends Controller
     public function get()
     {
         $topics = DB::table('topics')
+            ->select('topics.id', 'topics.views', 'topics.title', 'topics.published', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->whereUserId(Auth::id())
             ->where('deleted_at', '=', null)

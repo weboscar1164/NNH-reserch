@@ -29,6 +29,7 @@
 
 
     </div>
+    @auth
     <form action="" class=" mt-4">
         <span class="h3">あなたは何派？？</span>
         <input type="hidden" name="topic_id" value="3">
@@ -69,4 +70,11 @@
         </div>
 
     </form>
+    @endauth
+    @guest
+    <div class="my-4 text-center">
+        <h2>ログインして投稿しましょう！</h2>
+        <a href="{{ route('login') }}" class="btn btn-primary my-4">ログイン画面へ</a>
+    </div>
+    @endguest
 </div>

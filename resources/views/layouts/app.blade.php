@@ -71,10 +71,10 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('create') }}">トピック作成</a>
+                            <a class="nav-link" href="{{ route('topic.create') }}">トピック作成</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('archive') }}">過去の投稿</a>
+                            <a class="nav-link" href="{{ route('topic.archive') }}">過去の投稿</a>
                         </li>
                         @endguest
                     </ul>

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('title', 30)->nullalble(false)->comment('トピックタイトル');
-            $table->unsignedBigInteger('views')->comment('閲覧数');
+            $table->unsignedBigInteger('views')->default(0)->comment('閲覧数');
             $table->unsignedBigInteger('published')->default(1)->comment('公開:1/非公開:0');
             $table->string('choice1', 20)->comment('選択肢１');
             $table->string('choice2', 20)->comment('選択肢２');
