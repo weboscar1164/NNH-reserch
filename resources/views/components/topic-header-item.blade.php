@@ -30,13 +30,11 @@
 
     </div>
     @auth
-    <form action="" class=" mt-4">
+    <form action="{{ route('topic.detail', ['id'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
+        @csrf
         <span class="h3">あなたは何派？？</span>
-        <input type="hidden" name="topic_id" value="3">
-        <div class="form-group">
-            <textarea class="w-100 border-light" name="body" id="body" rows="5"></textarea>
-        </div>
-
+        <input type="hidden" name="topic_id" value="{{ $topic_detail->id }}">
+        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <div class="container mb-5">
             <div class="row h4 form-group">
                 <div class="col-auto pl-0">
@@ -62,6 +60,10 @@
                         @endforeach
                     </ul>
 
+                </div>
+                <div class="form-group">
+                    <textarea class="w-100 border-light" name="comment_body" rows="5"
+                        placeholder="コメントを投稿しましょう！（任意）"></textarea>
                 </div>
                 <div>
                     <input type="submit" value="送信" class="btn btn-success shadow-sm">

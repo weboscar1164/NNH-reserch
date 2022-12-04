@@ -16,17 +16,6 @@ class CreateController extends Controller
 
     public function create(CreateRequest $request)
     {
-        // $request->validate([
-        //     'title' => 'required|max:30',
-        //     'published' => 'required',
-        //     'choice1' => 'required|max:30',
-        //     'choice2' => 'required|max:30',
-        //     'choice3' => 'max:30',
-        //     'choice4' => 'max:30',
-        //     'choice5' => 'max:30',
-        //     'user_id' => 'required'
-        // ]);
-
         $topic = new Topic();
 
         $topic->title = $request->title;

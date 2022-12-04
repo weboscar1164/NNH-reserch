@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function get()
     {
 
-        $topic_detail = Topic::select('topics.id', 'topics.views', 'users.name')
+        $topic_detail = Topic::select('topics.title', 'topics.id', 'topics.views', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->wherePublished(1)
             ->where('deleted_at', '=', null)

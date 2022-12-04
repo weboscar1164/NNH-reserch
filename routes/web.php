@@ -22,9 +22,14 @@ use App\Http\Controllers\topic\CreateController;
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [HomeController::class, 'get'])->name('home');
+
     Route::get('/archive', [ArchiveController::class, 'get'])->name('topic.archive');
+
     Route::get('/detail/{id}', [DetailController::class, 'get'])->name('topic.detail');
+    Route::post('/detail/{id}', [DetailController::class, 'answer']);
+
     Route::get('/edit', [EditController::class, 'get'])->name('topic.edit');
+
     Route::get('/create', [CreateController::class, 'get'])->name('topic.create');
     Route::post('/create', [CreateController::class, 'create']);
 });

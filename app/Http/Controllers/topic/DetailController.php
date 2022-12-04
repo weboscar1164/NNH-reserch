@@ -4,7 +4,9 @@ namespace App\Http\Controllers\topic;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnswerRequest;
 use App\Models\Topic;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -12,7 +14,7 @@ class DetailController extends Controller
 {
     public function get(int $id)
     {
-        $topic_detail = Topic::select('topics.id', 'topics.views', 'users.name')
+        $topic_detail = Topic::select('topics.title', 'topics.id', 'topics.views', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->where('topics.id', '=', $id)
             ->where('deleted_at', '=', null)
@@ -65,5 +67,34 @@ class DetailController extends Controller
                 'comments' => $comments,
             ]
         );
+    }
+
+    public function answer(AnswerRequest $request)
+    {
+        $answer_number = 'answer' . $request->answer;
+        $topic_answer = DB::table('topics')
+            ->select(
+                $answer_number
+            )
+            ->whereId($request->topic_id)
+            ->first();
+
+        $result = $topic_answer->$answer_number + 1;
+
+        Topic::where('id', $request->topic_id)->update([
+            $answer_number => $result
+        ]);
+
+        $comment = new Comment();
+        $comment->topic_id = $request->topic_id;
+        $comment->user_id = $request->user_id;
+        $comment->answer = $request->answer;
+        $comment->comment_body = $request->comment_body;
+
+        $comment->save();
+
+        return redirect()->route('topic.detail', [
+            'id' => $request->topic_id,
+        ]);
     }
 }
