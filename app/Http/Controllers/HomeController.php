@@ -26,12 +26,15 @@ class HomeController extends Controller
     public function get()
     {
 
-        $topic_detail = DB::table('topics')
+        $topic_detail = Topic::select('topics.id', 'topics.views', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->wherePublished(1)
             ->where('deleted_at', '=', null)
             ->orderby('topics.id', 'desc')
             ->first();
+
+        $topic_detail->views++;
+        $topic_detail->save();
 
         $topic_choices = DB::table('topics')
             ->select(

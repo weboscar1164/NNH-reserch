@@ -4,6 +4,7 @@ namespace App\Http\Controllers\topic;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -11,11 +12,14 @@ class DetailController extends Controller
 {
     public function get(int $id)
     {
-        $topic_detail = DB::table('topics')
+        $topic_detail = Topic::select('topics.id', 'topics.views', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
             ->where('topics.id', '=', $id)
             ->where('deleted_at', '=', null)
             ->first();
+
+        $topic_detail->views++;
+        $topic_detail->save();
 
         $topic_choices = DB::table('topics')
             ->select(

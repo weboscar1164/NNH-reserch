@@ -9,7 +9,7 @@ $published_cls = $topic->published ? 'bg-primary' : 'bg-danger';
             @if(!$is_home)
             <span class="badge mr-1 align-bottom {{ $published_cls }}">{{ $published_label }}</span>
             @endif
-            <a class="text-body" href="{{ route('detail', ['id' => $topic->id])}}">{{ $topic->title }}</a>
+            <a class="text-body" href="{{ route('topic.detail', ['id' => $topic->id])}}">{{ $topic->title }}</a>
         </h2>
     </div>
     <div class="view col-auto min-w-100 text-center">
