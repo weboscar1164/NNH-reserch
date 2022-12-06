@@ -1,12 +1,8 @@
 <div class="row">
     <div class="col">
         <!-- 左側 -->
-        <canvas id="chart" width="400" height="400" data-likes="3" data-dislikes="2"></canvas>
-        <style>
-        #chart {
-            background-color: gray;
-        }
-        </style>
+        <canvas id="chart" width="400" height="400"></canvas>
+
     </div>
     <div class="col-lg-auto my-5">
         <!-- 右側 -->
@@ -26,8 +22,6 @@
             @endif
             @endforeach
         </ul>
-
-
     </div>
     @auth
     <form action="{{ route('topic.detail', ['id'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
@@ -80,3 +74,8 @@
     </div>
     @endguest
 </div>
+
+<script>
+const data_choice = @JSON($data_choice);
+const data_answer = @JSON($data_answer);
+</script>

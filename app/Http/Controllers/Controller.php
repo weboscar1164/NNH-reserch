@@ -27,4 +27,16 @@ class Controller extends BaseController
 
         return $topic_results;
     }
+    public function makeDataArray($topic_results, $name)
+    {
+        $i = 0;
+        foreach ($topic_results as $result) {
+            if ($result['choice'] !== null) {
+                $result_array['choice'][$i] = $result['choice'];
+                $result_array['answer'][$i] = $result['answer'];
+            }
+            $i++;
+        }
+        return $result_array[$name];
+    }
 }

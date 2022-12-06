@@ -50,6 +50,11 @@ class DetailController extends Controller
             ->first();
 
         $topic_results = controller::fetchResults($topic_choices, $topic_answers);
+        $data_choice = controller::makeDataArray($topic_results, 'choice');
+        $data_answer = controller::makeDataArray($topic_results, 'answer');
+
+        // $data_choice = ['りんご', 'バナナ', 'みかん', 'なし', 'キウィ'];
+        // $data_answer = [1, 2, 3, 4, 5];
 
         $comments = DB::table('comments')
             ->join('users', 'comments.user_id', '=', 'users.id')
@@ -61,11 +66,14 @@ class DetailController extends Controller
 
         return view(
             'topic.detail',
-            [
-                'topic_detail' => $topic_detail,
-                'topic_results' => $topic_results,
-                'comments' => $comments,
-            ]
+            compact('topic_detail', 'topic_results', 'data_choice', 'data_answer', 'comments')
+            // [
+            //     'topic_detail' => $topic_detail,
+            //     'topic_results' => $topic_results,
+            //     'data_choices' => $data_choices,
+            //     'data_answers' => $data_answers,
+            //     'comments' => $comments,
+            // ]
         );
     }
 

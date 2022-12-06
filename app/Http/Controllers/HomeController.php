@@ -63,6 +63,8 @@ class HomeController extends Controller
             ->first();
 
         $topic_results = Controller::fetchResults($topic_choices, $topic_answers);
+        $data_choice = controller::makeDataArray($topic_results, 'choice');
+        $data_answer = controller::makeDataArray($topic_results, 'answer');
 
         $topics = DB::table('topics')
             ->select('topics.id', 'topics.title', 'topics.published', 'topics.views', 'users.name',)
@@ -77,6 +79,8 @@ class HomeController extends Controller
             [
                 'topic_detail' => $topic_detail,
                 'topic_results' => $topic_results,
+                'data_choice' => $data_choice,
+                'data_answer' => $data_answer,
                 'topics' => $topics,
             ]
         );
