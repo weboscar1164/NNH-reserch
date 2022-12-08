@@ -29,13 +29,13 @@ function pie_chart() {
             datasets: [
                 {
                     data: data_answer,
-                    backgroundColor: [
-                        "#34d399",
-                        "#f87171",
-                        "blue",
-                        "orange",
-                        "pink",
-                    ],
+                    // backgroundColor: [
+                    //     "#34d399",
+                    //     "#f87171",
+                    //     "blue",
+                    //     "orange",
+                    //     "pink",
+                    // ],
                 },
             ],
         };

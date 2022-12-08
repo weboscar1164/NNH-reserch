@@ -28,7 +28,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/detail/{id}', [DetailController::class, 'get'])->name('topic.detail');
     Route::post('/detail/{id}', [DetailController::class, 'answer']);
 
-    Route::get('/edit', [EditController::class, 'get'])->name('topic.edit');
+    Route::get('/edit/{id}', [EditController::class, 'get'])->name('topic.edit');
+    Route::post('/edit/{id}', [EditController::class, 'edit']);
+    Route::get('/delete/{id}', [EditController::class, 'delete'])->name('topic.delete');
 
     Route::get('/create', [CreateController::class, 'get'])->name('topic.create');
     Route::post('/create', [CreateController::class, 'create']);
