@@ -74,6 +74,8 @@ class HomeController extends Controller
             ->orderby('topics.id', 'desc')
             ->get();
 
+        $is_answerd = controller::get_is_answerd($topic_detail->id);
+
         return view(
             'home',
             [
@@ -82,6 +84,7 @@ class HomeController extends Controller
                 'data_choice' => $data_choice,
                 'data_answer' => $data_answer,
                 'topics' => $topics,
+                'is_answerd' => $is_answerd
             ]
         );
     }

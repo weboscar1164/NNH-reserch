@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use App\Models\Comment;
 
 class Controller extends BaseController
 {
@@ -27,6 +29,7 @@ class Controller extends BaseController
 
         return $topic_results;
     }
+
     public function makeDataArray($topic_results, $name)
     {
         $i = 0;
@@ -38,5 +41,13 @@ class Controller extends BaseController
             $i++;
         }
         return $result_array[$name];
+    }
+
+    public function get_is_answerd($selected_topic_id)
+    {
+        return Comment::select('answer')
+            ->where('topic_id', $selected_topic_id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
     }
 }

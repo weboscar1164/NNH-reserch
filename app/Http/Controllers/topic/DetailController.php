@@ -53,9 +53,6 @@ class DetailController extends Controller
         $data_choice = controller::makeDataArray($topic_results, 'choice');
         $data_answer = controller::makeDataArray($topic_results, 'answer');
 
-        // $data_choice = ['りんご', 'バナナ', 'みかん', 'なし', 'キウィ'];
-        // $data_answer = [1, 2, 3, 4, 5];
-
         $comments = DB::table('comments')
             ->join('users', 'comments.user_id', '=', 'users.id')
             ->whereTopicId($id)
@@ -64,16 +61,18 @@ class DetailController extends Controller
             ->orderby('comments.id', 'desc')
             ->get();
 
+        $is_answerd = Controller::get_is_answerd($topic_detail->id);
+
         return view(
             'topic.detail',
-            compact('topic_detail', 'topic_results', 'data_choice', 'data_answer', 'comments')
-            // [
-            //     'topic_detail' => $topic_detail,
-            //     'topic_results' => $topic_results,
-            //     'data_choices' => $data_choices,
-            //     'data_answers' => $data_answers,
-            //     'comments' => $comments,
-            // ]
+            [
+                'topic_detail' => $topic_detail,
+                'topic_results' => $topic_results,
+                'data_choice' => $data_choice,
+                'data_answer' => $data_answer,
+                'comments' => $comments,
+                'is_answerd' => $is_answerd
+            ]
         );
     }
 

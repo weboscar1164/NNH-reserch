@@ -3,7 +3,7 @@
 @section('content')
 <div class="py-5">
     <div class="container-lg">
-        <x-topic-header-item :topic-detail="$topic_detail" :topic-results="$topic_results" :data-choice="$data_choice" :data-answer="$data_answer"/>
+        <x-topic-header-item :topic-detail="$topic_detail" :topic-results="$topic_results" :data-choice="$data_choice" :data-answer="$data_answer" :is-answerd="$is_answerd"/>
     </div>
     <ul class="list-unstyled">
         @foreach($comments as $comment)
