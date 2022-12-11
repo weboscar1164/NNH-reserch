@@ -16,8 +16,7 @@ $primary: #3882f6;
 $danger: #ff4136;
 $font-family-base: "M PLUS Rounded 1c", sans-serif;
 
-$cLikesGreen: #33d499;
-$cDislikesRed: #f87171;
+$cLikesRed: #ff4d73;
 
 .login-form {
     width: 300px;
@@ -27,18 +26,29 @@ $cDislikesRed: #f87171;
     min-width: 100px;
 }
 
-.likes-green {
-    color: $cLikesGreen;
-}
-
-.dislikes-red {
-    color: $cDislikesRed;
-}
-
 .topic {
     transition: box-shadow 0.3s;
 
     &:hover {
         @extend .shadow;
+    }
+}
+
+.btn {
+    &--like {
+        i {
+            color: $cLikesRed;
+        }
+    }
+    &--liked {
+        i,
+        span {
+            color: #fff;
+        }
+        background: $cLikesRed;
+
+        &:hover {
+            background: darken($cLikesRed, 20%);
+        }
     }
 }

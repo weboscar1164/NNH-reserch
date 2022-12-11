@@ -63,6 +63,8 @@ class DetailController extends Controller
 
         $is_answerd = Controller::get_is_answerd($topic_detail->id);
 
+        $likes_results = Controller::get_likes($id);
+
         return view(
             'topic.detail',
             [
@@ -71,7 +73,8 @@ class DetailController extends Controller
                 'data_choice' => $data_choice,
                 'data_answer' => $data_answer,
                 'comments' => $comments,
-                'is_answerd' => $is_answerd
+                'is_answerd' => $is_answerd,
+                'likes_results' => $likes_results
             ]
         );
     }

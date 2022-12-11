@@ -76,6 +76,8 @@ class HomeController extends Controller
 
         $is_answerd = controller::get_is_answerd($topic_detail->id);
 
+        $likes_results = Controller::get_likes($topic_detail->id);
+
         return view(
             'home',
             [
@@ -84,7 +86,8 @@ class HomeController extends Controller
                 'data_choice' => $data_choice,
                 'data_answer' => $data_answer,
                 'topics' => $topics,
-                'is_answerd' => $is_answerd
+                'is_answerd' => $is_answerd,
+                'likes_results' => $likes_results
             ]
         );
     }

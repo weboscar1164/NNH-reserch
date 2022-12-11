@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Topic;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function likes()
+    {
+        return $this->belongsToMany(Topic::class, 'likes', 'user_id', 'topic_id')->withTimestamps();
+    }
+
+    public function isLike($topicId)
+    {
+        return $this->likes()->where('topic_id', $topicId)->exists();
+    }
+
+    public function like($topicId)
+    {
+        if (!$this->isLike($topicId)) {
+            $this->likes()->attach($topicId);
+        }
+    }
+
+    public function unlike($topicId)
+    {
+        if ($this->isLike($topicId)) {
+            $this->likes()->detach($topicId);
+        }
+    }
 }

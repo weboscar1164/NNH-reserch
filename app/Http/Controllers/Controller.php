@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Comment;
+use App\Models\Like;
 
 class Controller extends BaseController
 {
@@ -49,5 +50,14 @@ class Controller extends BaseController
             ->where('topic_id', $selected_topic_id)
             ->where('user_id', Auth::user()->id)
             ->first();
+    }
+
+    public function get_likes($topic_id)
+    {
+        $liked_this_topic = Like::whereTopicId($topic_id)->count();
+
+        $liked_this_user = Like::whereUserId(Auth::user()->id)->count() ? true : false;
+
+        return ['count' => $liked_this_topic, 'liked_this_user' => $liked_this_user];
     }
 }

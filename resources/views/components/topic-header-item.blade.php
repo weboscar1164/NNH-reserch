@@ -8,9 +8,13 @@
         <!-- 右側 -->
         <div>
             <h1>{{ $topic_detail->title}}</h1>
-            <span class="mr-1 h5">Posted by {{ $topic_detail->name}}</span>
-            <span class="mr-1 h5">&bull;</span>
-            <span class="h5">{{ $topic_detail->views}} views</span>
+            <span class="me-1 h5">Posted by {{ $topic_detail->name}}</span>
+            <span class="me-1 h5">&bull;</span>
+            <span class="me-1 h5">{{ $topic_detail->views}} views</span>
+            <button id="likeButton" class="btn btn--like " onclick="likesButtonClick({{ $topic_detail->id }})">
+                <i class="icon ion-md-heart h4"></i>
+                <span id="likesCount" class="h5"></span>
+            </button>
         </div>
         <ul class="list-unstyled container h4">
             @foreach($topic_results as $topic_result)
@@ -85,4 +89,78 @@
 <script>
 const data_choice = @JSON($data_choice);
 const data_answer = @JSON($data_answer);
+const topicId = @json($topic_detail->id);
+
+let likesCount = @json($likes_results['count']) ;
+window.onload = function(){
+    likeBtnChange();
+}
+
+let likedThisUser = @json($likes_results['liked_this_user']);
+
+function likeBtnChange() {
+    let likesStr = likesCount + ' likes';
+    isLikedChangeClass();
+    document.getElementById('likesCount').innerHTML = likesStr ;
+
+}
+
+function likesButtonClick() {
+    if(likedThisUser) {
+        
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: `/unlike/${topicId}`,
+            type: "POST",
+        })
+        .done(function(xhr, status, error) {
+            console.log('ok');
+            likesCount -= 1;
+            likedThisUser = false;
+            isLikedChangeClass();
+            likeBtnChange();
+        })
+        .fail(function(xhr, status,error) {
+            console.log('ng');
+        })
+        
+    }else {
+        $.ajax({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            url: `/like/${topicId}`,
+            type: "POST",
+        })
+        .done(function(xhr, status, error) {
+        likesCount += 1;
+        likedThisUser = true;
+        console.log('ok');
+        isLikedChangeClass();
+        likeBtnChange();
+    })
+    .fail(function(xhr, status,error) {
+        console.log('ng');
+    })
+    }
+    isLikedChangeClass();
+    likeBtnChange();
+
+    
+}
+
+function isLikedChangeClass() {
+    if (likedThisUser) {
+        document.getElementById('likeButton').classList.remove('btn--like');
+        document.getElementById('likeButton').classList.add('btn--liked');
+    }else {
+        document.getElementById('likeButton').classList.remove('btn--liked');
+        document.getElementById('likeButton').classList.add('btn--like');
+    }
+}
+
+
+
 </script>
