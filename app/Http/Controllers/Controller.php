@@ -45,7 +45,7 @@ class Controller extends BaseController
 
     public function get_is_answerd($selected_topic_id)
     {
-        return Comment::select('answer')
+        return Comment::select('id', 'answer')
             ->where('topic_id', $selected_topic_id)
             ->where('user_id', Auth::user()->id)
             ->first();

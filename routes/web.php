@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/detail/{id}', [DetailController::class, 'get'])->name('topic.detail');
     Route::post('/detail/{id}', [DetailController::class, 'answer']);
+    Route::get('/delete/{comment_id}', [DetailController::class, 'delete_comment'])->name('comment.delete');
 
     Route::get('/edit/{id}', [EditController::class, 'get'])->name('topic.edit');
     Route::post('/edit/{id}', [EditController::class, 'edit']);

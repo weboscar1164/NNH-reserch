@@ -28,7 +28,7 @@
     <div class="col mb-5">
         <h2 class="mb-3">回答ありがとうございます！</h2>
         <p>あなたは、<span class="h5">"{{ $data_choice[$is_answerd->answer - 1] }}"</span>  を選択しました。</p>
-        <a href="#" class="btn btn-danger shadow-sm col-auto">取り消す</a>
+        <a href="{{ route('comment.delete',['comment_id'=> $is_answerd->id]) }}" class="btn btn-danger shadow-sm col-auto">取り消す</a>
     </div>
     @else
     <form action="{{ route('topic.detail', ['id'=> $topic_detail->id]) }}" class=" mt-4" method="POST">

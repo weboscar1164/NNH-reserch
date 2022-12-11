@@ -104,4 +104,13 @@ class DetailController extends Controller
             'id' => $request->topic_id,
         ]);
     }
+
+    public function delete_comment(int $comment_id)
+    {
+        $target_comment = Comment::whereId($comment_id)->first();
+        $topic_id = $target_comment->topic_id;
+        $target_comment->delete();
+
+        return redirect()->route('topic.detail', ['id' => $topic_id]);
+    }
 }
