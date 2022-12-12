@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
+
     public function store($id)
     {
         Auth::user()->like($id);

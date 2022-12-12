@@ -4,14 +4,19 @@
         <canvas id="chart" width="400" height="400"></canvas>
 
     </div>
-    <div class="col-lg-auto my-5">
+    <div class="col-lg-auto mt-5">
         <!-- 右側 -->
         <div>
             <h1>{{ $topic_detail->title}}</h1>
             <span class="me-1 h5">Posted by {{ $topic_detail->name}}</span>
             <span class="me-1 h5">&bull;</span>
             <span class="me-1 h5">{{ $topic_detail->views}} views</span>
-            <button id="likeButton" class="btn btn--like " onclick="likesButtonClick({{ $topic_detail->id }})">
+            @auth 
+                <button id="likeButton" class="btn btn--like " onclick="likesButtonClick({{ $topic_detail->id }})">
+            @endauth
+            @guest 
+            <button id="likeButton" data-bs-toggle="modal" data-bs-target="#likeModal" class="btn btn--like">
+            @endguest
                 <i class="icon ion-md-heart h4"></i>
                 <span id="likesCount" class="h5"></span>
             </button>
@@ -29,10 +34,12 @@
     </div>
     @auth
     @if(!is_null($is_answerd))
-    <div class="col mb-5">
+    <div class="my-5">
         <h2 class="mb-3">回答ありがとうございます！</h2>
         <p>あなたは、<span class="h5">"{{ $data_choice[$is_answerd->answer - 1] }}"</span>  を選択しました。</p>
-        <a href="{{ route('comment.delete',['comment_id'=> $is_answerd->id]) }}" class="btn btn-danger shadow-sm col-auto">取り消す</a>
+        <div class="row justify-content-end">
+            <a href="{{ route('comment.delete',['comment_id'=> $is_answerd->id]) }}" class="btn btn-danger shadow-sm col-auto">取り消す</a>
+        </div>
     </div>
     @else
     <form action="{{ route('topic.detail', ['id'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
@@ -48,23 +55,22 @@
                         $i = 0;
                         @endphp
                         @foreach($topic_results as $topic_result)
-                        @php
-                        $i++;
-                        $input_type = 'answer' . $i;
-                        $checked = $i === 1 ? 'checked' : '' ;
-                        @endphp
-                        @if($topic_result['choice'] !== null)
+                            @php
+                            $i++;
+                            $input_type = 'answer' . $i;
+                            $checked = $i === 1 ? 'checked' : '' ;
+                            @endphp
+                            @if($topic_result['choice'] !== null)
 
-                        <li class="form-check mt-2">
-                            <input class="form-check-input" type="radio" id="{{ $input_type }}" name="answer"
-                                value="{{ $i }}" {{ $checked }}>
-                            <label for="{{ $input_type }}"
-                                class="form-check-label pt-1">{{ $topic_result['choice'] }}</label>
-                        </li>
-                        @endif
+                            <li class="form-check mt-2">
+                                <input class="form-check-input" type="radio" id="{{ $input_type }}" name="answer"
+                                    value="{{ $i }}" {{ $checked }}>
+                                <label for="{{ $input_type }}"
+                                    class="form-check-label pt-1">{{ $topic_result['choice'] }}</label>
+                            </li>
+                            @endif
                         @endforeach
                     </ul>
-
                 </div>
                 <div class="form-group">
                     <textarea class="w-100 border-light" name="comment_body" rows="5"
@@ -80,10 +86,29 @@
     @endauth
     @guest
     <div class="my-4 text-center">
-        <h2>ログインして投稿しましょう！</h2>
+        <h2>ログインして回答しましょう！</h2>
         <a href="{{ route('login') }}" class="btn btn-primary my-4">ログイン画面へ</a>
     </div>
     @endguest
+</div>
+
+<div class="modal fade" id="likeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>
+                    <div class="modal-title" id="myModalLabel">確認</div>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <label>いいね！するにはログインが必要です。</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">閉じる</button>
+                <a href="{{ route('login') }}" class="btn btn-primary shadow-sm mr-3">ログイン</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -92,11 +117,11 @@ const data_answer = @JSON($data_answer);
 const topicId = @json($topic_detail->id);
 
 let likesCount = @json($likes_results['count']) ;
+let likedThisUser = @json($likes_results['liked_this_user']);
+
 window.onload = function(){
     likeBtnChange();
 }
-
-let likedThisUser = @json($likes_results['liked_this_user']);
 
 function likeBtnChange() {
     let likesStr = likesCount + ' likes';
@@ -107,6 +132,7 @@ function likeBtnChange() {
 
 function likesButtonClick() {
     if(likedThisUser) {
+        isLikedChangeClass();
         
         $.ajax({
             headers: {
@@ -119,14 +145,13 @@ function likesButtonClick() {
             console.log('ok');
             likesCount -= 1;
             likedThisUser = false;
-            isLikedChangeClass();
             likeBtnChange();
         })
         .fail(function(xhr, status,error) {
             console.log('ng');
         })
         
-    }else {
+    } else {
         $.ajax({
             headers: {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -138,17 +163,12 @@ function likesButtonClick() {
         likesCount += 1;
         likedThisUser = true;
         console.log('ok');
-        isLikedChangeClass();
         likeBtnChange();
     })
     .fail(function(xhr, status,error) {
         console.log('ng');
     })
     }
-    isLikedChangeClass();
-    likeBtnChange();
-
-    
 }
 
 function isLikedChangeClass() {
@@ -160,7 +180,5 @@ function isLikedChangeClass() {
         document.getElementById('likeButton').classList.add('btn--like');
     }
 }
-
-
 
 </script>

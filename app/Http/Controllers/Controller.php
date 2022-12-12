@@ -46,17 +46,23 @@ class Controller extends BaseController
 
     public function get_is_answerd($selected_topic_id)
     {
-        return Comment::select('id', 'answer')
-            ->where('topic_id', $selected_topic_id)
-            ->where('user_id', Auth::user()->id)
-            ->first();
+        if (Auth::user()) {
+            return Comment::select('id', 'answer')
+                ->where('topic_id', $selected_topic_id)
+                ->where('user_id', Auth::user()->id)
+                ->first();
+        }
     }
 
     public function get_likes($topic_id)
     {
         $liked_this_topic = Like::whereTopicId($topic_id)->count();
 
-        $liked_this_user = Like::whereUserId(Auth::user()->id)->count() ? true : false;
+        if (Auth::user()) {
+            $liked_this_user = Like::whereUserId(Auth::user()->id)->whereTopicId($topic_id)->count() == 0 ? false : true;
+        } else {
+            $liked_this_user = false;
+        }
 
         return ['count' => $liked_this_topic, 'liked_this_user' => $liked_this_user];
     }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Topic;
+use App\Models\Like;
 
 class HomeController extends Controller
 {
@@ -75,7 +77,6 @@ class HomeController extends Controller
             ->get();
 
         $is_answerd = controller::get_is_answerd($topic_detail->id);
-
         $likes_results = Controller::get_likes($topic_detail->id);
 
         return view(

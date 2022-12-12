@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\topic;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AnswerRequest;
 use App\Models\Topic;
 use App\Models\Comment;
+use App\Models\Like;
 use Illuminate\Http\Request;
 use stdClass;
 
@@ -62,7 +64,6 @@ class DetailController extends Controller
             ->get();
 
         $is_answerd = Controller::get_is_answerd($topic_detail->id);
-
         $likes_results = Controller::get_likes($id);
 
         return view(
