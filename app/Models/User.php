@@ -44,6 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // リレーションシップ - likes
     public function likes()
     {
         return $this->belongsToMany(Topic::class, 'likes', 'user_id', 'topic_id')->withTimestamps();
@@ -68,11 +69,13 @@ class User extends Authenticatable
         }
     }
 
+    // リレーションシップ - comments
     public function commnets()
     {
         return $this->belongsToMany(User::class, 'comments', 'user_id', 'topic_id')->withTimestamps();
     }
 
+    // リレーションシップ - topics
     public function topics()
     {
         return $this->hasMany('App\Model\Topic', 'topic_id', 'id');

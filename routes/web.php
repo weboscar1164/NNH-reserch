@@ -6,6 +6,7 @@ use App\Http\Controllers\topic\ArchiveController;
 use App\Http\Controllers\topic\DetailController;
 use App\Http\Controllers\topic\EditController;
 use App\Http\Controllers\topic\CreateController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/archive', [ArchiveController::class, 'get'])->name('topic.archive');
 
-    Route::post('/detail/{topic}', [DetailController::class, 'answer']);
-    Route::get('/comment/delete/{comment_id}', [DetailController::class, 'delete_comment'])->name('comment.delete');
+    Route::post('/comment/{topic}', [CommentController::class, 'store'])->name('comment.store');
+    Route::get('/comment/delete/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
     Route::post('like/{id}', [LikeController::class, 'store']);
     Route::post('unlike/{id}', [LikeController::class, 'destroy']);

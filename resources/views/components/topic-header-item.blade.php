@@ -38,11 +38,11 @@
         <h2 class="mb-3">回答ありがとうございます！</h2>
         <p>あなたは、<span class="h5">"{{ $data_choice[$is_answerd->answer - 1] }}"</span>  を選択しました。</p>
         <div class="row justify-content-end">
-            <a href="{{ route('comment.delete',['comment_id'=> $is_answerd->id]) }}" class="btn btn-danger shadow-sm col-auto">取り消す</a>
+            <a href="{{ route('comment.delete',['comment'=> $is_answerd->id]) }}" class="btn btn-danger shadow-sm col-auto">取り消す</a>
         </div>
     </div>
     @else
-    <form action="{{ route('topic.detail', ['topic'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
+    <form action="{{ route('comment.store', ['topic'=> $topic_detail->id]) }}" class="mt-4" method="POST">
         @csrf
         <span class="h3">あなたは何派？？</span>
         <input type="hidden" name="topic_id" value="{{ $topic_detail->id }}">

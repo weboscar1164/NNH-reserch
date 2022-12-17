@@ -18,21 +18,7 @@ class Topic extends Model
     use SoftDeletes;
     protected $detes = ['deleted_at'];
 
-    public function likes()
-    {
-        return $this->belongsToMany(User::class, 'likes', 'user_id', 'topic_id')->withTimestamps();
-    }
-
-    public function commnets()
-    {
-        return $this->belongsToMany(User::class, 'comments', 'user_id', 'topic_id')->withTimestamps();
-    }
-
-
-
-    /*
-    * 状態定義
-    */
+    //公開状態の定義
     const PUBLISHED = [
         0 => ['label' => '非公開', 'class' => 'bg-danger'],
         1 => ['label' => '公開', 'class' => 'bg-primary']
@@ -64,7 +50,25 @@ class Topic extends Model
     }
 
     /*
-    * リレーションシップ - usersテーブル
+    * リレーションシップ - likes
+    */
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'likes', 'user_id', 'topic_id')->withTimestamps();
+    }
+
+    /*
+    * リレーションシップ - comments
+    */
+
+    public function commnets()
+    {
+        return $this->belongsToMany(User::class, 'comments', 'user_id', 'topic_id')->withTimestamps();
+    }
+
+    /*
+    * リレーションシップ - users
     */
     public function owner()
     {
