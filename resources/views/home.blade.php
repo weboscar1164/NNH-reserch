@@ -17,9 +17,9 @@
         @php
         $i = 0
         @endphp
-        @foreach($topics as $topic)
+        @foreach($topics as $topic_item)
         @if($i !== 0)
-        <x-topic-list-item :topic="$topic" :is-home="true" />
+        <x-topic-list-item :topic-item="$topic_item" :is-home="true" />
         @endif
         @php
         $i++

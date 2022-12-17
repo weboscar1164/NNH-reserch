@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @php
-$published_selected = $topic->published == 1 ? 'selected' : '';
-$unpublished_selected = $topic->published == 1 ? '' : 'selected';
+$published_selected = $current_topic->published == 1 ? 'selected' : '';
+$unpublished_selected = $current_topic->published == 1 ? '' : 'selected';
 @endphp
 @section('content')
 <div class="container">
@@ -11,11 +11,11 @@ $unpublished_selected = $topic->published == 1 ? '' : 'selected';
             <h1 class="h2 mb-3">トピック編集</h1>
 
             <div class="bg-white p-4 shadow-sm mx-auto rounded">
-                <form action="{{ route('topic.edit', ['id'=>$topic->id]) }}" method="POST">
+                <form action="{{ route('topic.edit', ['topic'=>$current_topic->id]) }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <div>タイトル</div>
-                        <span class="h5">{{$topic->title}}</span>
+                        <span class="h5">{{$current_topic->title}}</span>
                     </div>
                     <div class="form-group mb-3">
                         <span>ステータス</span>
@@ -69,7 +69,7 @@ $unpublished_selected = $topic->published == 1 ? '' : 'selected';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">閉じる</button>
-                <a href="{{ route('topic.delete', ['id' => $topic->id])}}" class="btn btn-danger shadow-sm mr-3">削除</a>
+                <a href="{{ route('topic.delete', ['topic' => $current_topic->id])}}" class="btn btn-danger shadow-sm mr-3">削除</a>
             </div>
         </div>
     </div>

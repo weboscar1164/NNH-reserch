@@ -42,7 +42,7 @@
         </div>
     </div>
     @else
-    <form action="{{ route('topic.detail', ['id'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
+    <form action="{{ route('topic.detail', ['topic'=> $topic_detail->id]) }}" class=" mt-4" method="POST">
         @csrf
         <span class="h3">あなたは何派？？</span>
         <input type="hidden" name="topic_id" value="{{ $topic_detail->id }}">

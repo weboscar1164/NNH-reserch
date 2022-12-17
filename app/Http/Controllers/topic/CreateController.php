@@ -30,7 +30,7 @@ class CreateController extends Controller
         $topic->save();
 
         return redirect()->route('topic.detail', [
-            'id' => $topic->id,
+            'topic' => $topic->id,
         ]);
     }
 }

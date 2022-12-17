@@ -67,4 +67,14 @@ class User extends Authenticatable
             $this->likes()->detach($topicId);
         }
     }
+
+    public function commnets()
+    {
+        return $this->belongsToMany(User::class, 'comments', 'user_id', 'topic_id')->withTimestamps();
+    }
+
+    public function topics()
+    {
+        return $this->hasMany('App\Model\Topic', 'topic_id', 'id');
+    }
 }

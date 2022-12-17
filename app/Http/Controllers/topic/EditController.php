@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class EditController extends Controller
 {
-    public function get(int $id)
+    public function get(Topic $topic)
     {
 
-        $topic = Topic::select('title', 'id', 'published', 'user_id')
-            ->whereId($id)
+        $current_topic = Topic::select('title', 'id', 'published', 'user_id')
+            ->whereId($topic->id)
             ->first();
 
         $topic_choices = DB::table('topics')
@@ -24,33 +24,35 @@ class EditController extends Controller
                 'choice4',
                 'choice5',
             )
-            ->whereId($id)
+            ->whereId($topic->id)
             ->first();
 
         return view('topic.edit', [
-            'topic' => $topic,
+            'current_topic' => $current_topic,
             'topic_choices' => $topic_choices
         ]);
     }
 
-    public function edit(int $id, Request $request)
+    public function edit(Topic $topic, Request $request)
     {
-        $topic = Topic::select('title', 'id', 'published', 'user_id')
-            ->whereId($id)
+        $current_topic = Topic::select('title', 'id', 'published', 'user_id')
+            ->whereId($topic->id)
             ->first();
-        $topic->published = $request->published;
-        $topic->save();
+        $current_topic->published = $request->published;
+        $current_topic->save();
+
+        return redirect()->route('topic.archive', [
+            $current_topic->user_id,
+        ]);
+    }
+
+    public function delete(Topic $topic)
+    {
+        Topic::whereId($topic->id)
+            ->delete();
 
         return redirect()->route('topic.archive', [
             $topic->user_id,
         ]);
-    }
-
-    public function delete(int $id)
-    {
-        Topic::whereId($id)
-            ->delete();
-
-        return redirect()->route('topic.archive');
     }
 }

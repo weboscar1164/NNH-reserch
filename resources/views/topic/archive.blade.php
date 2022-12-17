@@ -3,8 +3,8 @@
 @auth
 <h1 class="h2 mb-3">過去の投稿</h1>
 <ul class="container">
-    @foreach($topics as $topic)
-    <x-topic-list-item :topic="$topic" :is-home="false" />
+    @foreach($topics as $topic_item)
+    <x-topic-list-item :topic-item="$topic_item" :is-home="false" />
     @endforeach
 </ul>
 @endauth

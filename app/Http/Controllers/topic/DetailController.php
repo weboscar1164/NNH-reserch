@@ -14,11 +14,20 @@ use stdClass;
 
 class DetailController extends Controller
 {
-    public function get(int $id)
+    public function get(Topic $topic)
     {
+        $topic_test = Topic::where('id', $topic->id)->with(['owner', 'likes'])->first();
+        $current_topic = Topic::find($topic->id)->owner;
+        $current_topic2 = Topic::find($topic->id)->with('owner');
+
+        $topic_test->email;
+
+
+
+
         $topic_detail = Topic::select('topics.title', 'topics.id', 'topics.views', 'users.name')
             ->join('users', 'topics.user_id', '=', 'users.id')
-            ->where('topics.id', '=', $id)
+            ->where('topics.id', '=', $topic->id)
             ->where('deleted_at', '=', null)
             ->first();
 
@@ -33,7 +42,7 @@ class DetailController extends Controller
                 'choice4',
                 'choice5',
             )
-            ->whereId($id)
+            ->whereId($topic->id)
             ->where('deleted_at', '=', null)
             ->orderby('id', 'desc')
             ->first();
@@ -46,7 +55,7 @@ class DetailController extends Controller
                 'answer4',
                 'answer5',
             )
-            ->whereId($id)
+            ->whereId($topic->id)
             ->where('deleted_at', '=', null)
             ->orderby('id', 'desc')
             ->first();
@@ -57,14 +66,14 @@ class DetailController extends Controller
 
         $comments = DB::table('comments')
             ->join('users', 'comments.user_id', '=', 'users.id')
-            ->whereTopicId($id)
+            ->whereTopicId($topic->id)
             ->where('deleted_at', '=', null)
             ->where('comment_body', '!=', null)
             ->orderby('comments.id', 'desc')
             ->get();
 
         $is_answerd = Controller::get_is_answerd($topic_detail->id);
-        $likes_results = Controller::get_likes($id);
+        $likes_results = Controller::get_likes($topic->id);
 
         return view(
             'topic.detail',
@@ -80,7 +89,7 @@ class DetailController extends Controller
         );
     }
 
-    public function answer(AnswerRequest $request)
+    public function answer(AnswerRequest $request, Topic $topic)
     {
         $answer_number = 'answer' . $request->answer;
         $topic_answer = DB::table('topics')
@@ -92,7 +101,7 @@ class DetailController extends Controller
 
         $result = $topic_answer->$answer_number + 1;
 
-        Topic::where('id', $request->topic_id)->update([
+        Topic::where('id', $topic->id)->update([
             $answer_number => $result
         ]);
 
@@ -105,7 +114,7 @@ class DetailController extends Controller
         $comment->save();
 
         return redirect()->route('topic.detail', [
-            'id' => $request->topic_id,
+            'topic' => $request->topic_id,
         ]);
     }
 
@@ -115,6 +124,6 @@ class DetailController extends Controller
         $topic_id = $target_comment->topic_id;
         $target_comment->delete();
 
-        return redirect()->route('topic.detail', ['id' => $topic_id]);
+        return redirect()->route('topic.detail', ['topic' => $topic_id]);
     }
 }

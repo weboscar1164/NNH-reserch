@@ -20,22 +20,22 @@ use App\Http\Controllers\LikeController;
 
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::get('/', [HomeController::class, 'get'])->name('home');
+Route::get('/detail/{topic}', [DetailController::class, 'get'])->name('topic.detail');
 
-    Route::get('/', [HomeController::class, 'get'])->name('home');
+Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/archive', [ArchiveController::class, 'get'])->name('topic.archive');
 
-    Route::get('/detail/{id}', [DetailController::class, 'get'])->name('topic.detail');
-    Route::post('/detail/{id}', [DetailController::class, 'answer']);
-    Route::get('/delete/{comment_id}', [DetailController::class, 'delete_comment'])->name('comment.delete');
+    Route::post('/detail/{topic}', [DetailController::class, 'answer']);
+    Route::get('/comment/delete/{comment_id}', [DetailController::class, 'delete_comment'])->name('comment.delete');
 
     Route::post('like/{id}', [LikeController::class, 'store']);
     Route::post('unlike/{id}', [LikeController::class, 'destroy']);
 
-    Route::get('/edit/{id}', [EditController::class, 'get'])->name('topic.edit');
-    Route::post('/edit/{id}', [EditController::class, 'edit']);
-    Route::get('/delete/{id}', [EditController::class, 'delete'])->name('topic.delete');
+    Route::get('/edit/{topic}', [EditController::class, 'get'])->name('topic.edit');
+    Route::post('/edit/{topic}', [EditController::class, 'edit']);
+    Route::get('/topic/delete/{topic}', [EditController::class, 'delete'])->name('topic.delete');
 
     Route::get('/create', [CreateController::class, 'get'])->name('topic.create');
     Route::post('/create', [CreateController::class, 'create']);

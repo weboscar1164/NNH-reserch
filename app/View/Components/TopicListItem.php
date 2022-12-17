@@ -6,16 +6,16 @@ use Illuminate\View\Component;
 
 class TopicListItem extends Component
 {
-    public $topic;
+    public $topic_item;
     public $is_home;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($topic, $isHome)
+    public function __construct($topicItem, $isHome)
     {
-        $this->topic = $topic;
+        $this->topic_item = $topicItem;
         $this->is_home = $isHome;
     }
 
