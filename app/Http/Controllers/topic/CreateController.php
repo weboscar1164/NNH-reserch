@@ -29,6 +29,8 @@ class CreateController extends Controller
 
         $topic->save();
 
+        session()->flash('msg_success', 'トピックを作成しました。');
+
         return redirect()->route('topic.detail', [
             'topic' => $topic->id,
         ]);

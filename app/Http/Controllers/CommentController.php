@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
+
     public function store(AnswerRequest $request, Topic $topic)
     {
         $answer_number = 'answer' . $request->answer;
@@ -27,6 +28,8 @@ class CommentController extends Controller
         Topic::where('id', $topic->id)->update([
             $answer_number => $result
         ]);
+
+        session()->flash('msg_success', '投稿が完了しました。');
 
         return redirect()->route('topic.detail', [
             'topic' => $request->topic_id,
@@ -47,6 +50,7 @@ class CommentController extends Controller
             $answer_number => $result
         ]);
 
+        session()->flash('msg_success', '投稿を削除しました。');
         return redirect()->route('topic.detail', ['topic' => $topic_id]);
     }
 }

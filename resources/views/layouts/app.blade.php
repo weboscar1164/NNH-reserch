@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/pieChart.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/pieChart.js','resources/js/main.js'])
 </head>
 
 <body>
@@ -82,6 +82,13 @@
                 </div>
             </div>
         </nav>
+
+        {{-- フラッシュメッセージ --}}
+        @if (session('flash_message'))
+            <span class="flash_message badge bg-success text-center py-3 px-3 text-light">
+                {{ session('flash_message')}}
+            </span>
+        @endif
 
         <main class="container py-4">
             @yield('content')

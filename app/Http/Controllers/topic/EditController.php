@@ -41,6 +41,8 @@ class EditController extends Controller
         $current_topic->published = $request->published;
         $current_topic->save();
 
+        session()->flash('msg_success', 'トピックを編集しました。');
+
         return redirect()->route('topic.archive', [
             $current_topic->user_id,
         ]);
@@ -50,6 +52,8 @@ class EditController extends Controller
     {
         Topic::whereId($topic->id)
             ->delete();
+
+        session()->flash('msg_success', 'トピックを削除しました。');
 
         return redirect()->route('topic.archive', [
             $topic->user_id,
