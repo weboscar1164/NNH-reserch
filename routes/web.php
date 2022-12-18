@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/comment/{topic}', [CommentController::class, 'store'])->name('comment.store');
     Route::get('/comment/delete/{comment}', [CommentController::class, 'delete'])->name('comment.delete');
 
-    Route::post('like/{id}', [LikeController::class, 'store']);
-    Route::post('unlike/{id}', [LikeController::class, 'destroy']);
+    Route::post('like/{topic}', [LikeController::class, 'store']);
+    Route::post('unlike/{topic}', [LikeController::class, 'destroy']);
 
     Route::get('/edit/{topic}', [EditController::class, 'get'])->name('topic.edit');
     Route::post('/edit/{topic}', [EditController::class, 'edit']);
