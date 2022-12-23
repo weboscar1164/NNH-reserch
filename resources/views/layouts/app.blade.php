@@ -84,9 +84,9 @@
         </nav>
 
         {{-- フラッシュメッセージ --}}
-        @if (session('flash_message'))
+        @if (session('msg_success'))
             <span class="flash_message badge bg-success text-center py-3 px-3 text-light">
-                {{ session('flash_message')}}
+                {{ session('msg_success')}}
             </span>
         @endif
 
